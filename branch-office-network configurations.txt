@@ -1,0 +1,357 @@
+**R02 Configurations**
+
+Router>enable
+Router#conf t
+Router(config)#hostname R02
+
+R02(config)#banner motd #Authorized A ccess Only!#
+
+R02(config)#enable secret cisco
+R02(config)#service password-encryption
+
+R02(config)#line console 0
+R02(config-line)#password cisco
+R02(config-line)#login
+R02(config-line)#exit
+
+R02(config)#line vty 0 4
+R02(config-line)#password cisco
+R02(config-line)#login
+R02(config-line)#exit
+
+R02(config)#username cisco privilege 15 secret cisco
+
+R02(config)#line vty 0 4
+R02(config-line)#transport input ssh
+R02(config-line)#login local
+R02(config-line)#exit
+
+R02(config)#ip domain-name cisco.com
+R02(config)#crypto key generate rsa 
+
+R02(config)#int g0/2
+R02(config-if)#ip add 192.168.30.1 255.255.255.0
+R02(config-if)#no shutdown
+R02(config-if)#exit
+
+R02(config)#int g0/1
+R02(config-if)#ip add 12.0.1.1 255.255.255.252
+R02(config-if)#no shutdown
+R02(config)#int g0/0
+R02(config-if)#ip add 10.0.2.2 255.255.255.252
+R02(config-if)#no shutdown
+
+R02(config)#ip dhcp pool B1
+R02(config-dhcp)#network 192.168.30.0 255.255.255.0
+R02(config-dhcp)#default-router 192.168.30.1
+R02(config-dhcp)#dns-server 8.8.8.8
+R02(config-dhcp)#exit
+
+R02(config)#router ospf 1
+R02(config-router)#network 192.168.30.0 0.0.0.255 area 0
+R02(config-router)#network 10.0.2.0 0.0.0.3 area 0
+R02(config-router)#network 12.0.1.0 0.0.0.3 area 0
+
+
+**R03 Configurations**
+
+Router>enable
+Router#conf t
+Router(config)#hostname R03
+
+R03(config)#banner motd #Authorized Access Only!#
+
+R03(config)#enable secret cisco
+R03(config)#service password-encryption
+
+R03(config)#line console 0
+R03(config-line)#password cisco
+R03(config-line)#login
+R03(config-line)#exit
+
+R03(config)#line vty 0 4
+R03(config-line)#password cisco
+R03(config-line)#login
+R03(config-line)#exit
+
+R03(config)#username cisco privilege 15 secret cisco
+
+R03(config)#line vty 0 4
+R03(config-line)#transport input ssh
+R03(config-line)#login local
+R03(config-line)#exit
+
+R03(config)#ip domain-name cisco.com
+R03(config)#crypto key generate rsa 
+
+R03(config)#int g0/2
+R03(config-if)#ip add 192.168.40.1 255.255.255.0
+R03(config-if)#no shutdown
+R03(config-if)#exit
+
+R03(config)#int g0/1
+R03(config-if)#ip add 12.0.1.2 255.255.255.252
+R03(config-if)#no shutdown
+R03(config)#int g0/0
+R03(config-if)#ip add 11.0.2.1 255.255.255.252
+R03(config-if)#no shutdown
+
+R03(config)#ip dhcp pool B2
+R03(config-dhcp)#network 192.168.40.0 255.255.255.0
+R03(config-dhcp)#default-router 192.168.40.1
+R03(config-dhcp)#dns-server 8.8.8.8
+R03(config-dhcp)#exit
+
+R03(config)#router ospf 1
+R03(config-router)#network 192.168.40.0 0.0.0.255 area 0
+R03(config-router)#network 11.0.2.0 0.0.0.3 area 0
+R03(config-router)#network 12.0.1.0 0.0.0.3 area 0
+
+**S02 Configurations**
+
+Switch>en
+Switch#conf t
+
+Switch(config)#hostname S02
+
+S02(config)#line console 0
+S02(config-line)#password cisco
+S02(config-line)#login
+S02(config-line)#exit
+
+S02(config)#line vty 0 4
+S02(config-line)#password cisco
+S02(config-line)#login
+S02(config-line)#exit
+
+S02(config)#enable secret cisco
+S02(config)#service password-encryption
+
+S02(config)#interface vlan 1
+S02(config-if)#ip add 192.168.30.2 255.255.255.0
+S02(config-if)#no shutdown
+
+S02(config)#ip default-gateway 192.168.30.1
+
+S02(config)#ip domain-name cisco.com
+S02(config)#crypto key generate rsa
+
+S02(config)#username cisco privilege 15 secret cisco
+
+S02(config)#line vty 0 4
+S02(config-line)#transport input ssh
+S02(config-line)#login local
+S02(config-line)#exit
+
+S02(config)#int r f0/4-24
+S02(config-if-range)#shutdown
+S02(config-if-range)#description Administratively Down
+
+
+**S03 Configurations**
+
+Switch>en
+Switch#conf t
+
+Switch(config)#hostname S03
+
+S03(config)#line console 0
+S03(config-line)#password cisco
+S03(config-line)#login
+S03(config-line)#exit
+
+S03(config)#line vty 0 4
+S03(config-line)#password cisco
+S03(config-line)#login
+S03(config-line)#exit
+
+S03(config)#enable secret cisco
+S03(config)#service password-encryption
+
+S03(config)#interface vlan 1
+S03(config-if)#ip add 192.168.40.2 255.255.255.0
+S03(config-if)#no shutdown
+
+S03(config)#ip default-gateway 192.168.40.1
+
+S03(config)#ip domain-name cisco.com
+S03(config)#crypto key generate rsa
+
+S03(config)#username cisco privilege 15 secret cisco
+
+S03(config)#line vty 0 4
+S03(config-line)#transport input ssh
+S03(config-line)#login local
+S03(config-line)#exit
+
+S03(config)#int r f0/4-24
+S03(config-if-range)#shutdown
+S03(config-if-range)#description Administratively Down
+
+
+**R01 Configurations**
+
+Router>enable
+Router#conf t
+Router(config)#hostname R01
+
+R01(config)#banner motd #Authorized Access Only!#
+
+R01(config)#enable secret cisco
+R01(config)#service password-encryption
+
+R01(config)#line console 0
+R01(config-line)#password cisco
+R01(config-line)#login
+R01(config-line)#exit
+
+R01(config)#line vty 0 4
+R01(config-line)#password cisco
+R01(config-line)#login
+R01(config-line)#exit
+
+R01(config)#username cisco privilege 15 secret cisco
+
+R01(config)#line vty 0 4
+R01(config-line)#transport input ssh
+R01(config-line)#login local
+R01(config-line)#exit
+
+R01(config)#ip domain-name cisco.com
+R01(config)#crypto key generate rsa 
+
+R01(config)#int g0/2
+R01(config-if)#ip add 11.0.2.2 255.255.255.252
+R01(config-if)#no shutdown
+R01(config-if)#exit
+
+R01(config)#int g0/1
+R01(config-if)#ip add 10.0.2.1 255.255.255.252
+R01(config-if)#no shutdown
+
+R01(config)#router ospf 1
+R01(config-router)#network 192.168.10.0 0.0.0.255 area 0
+R01(config-router)#network 192.168.20.0 0.0.0.255 area 0
+R01(config-router)#network 10.0.2.0 0.0.0.3 area 0
+R01(config-router)#network 11.0.2.0 0.0.0.3 area 0
+
+R01(config)# interface GigabitEthernet0/0.10
+R01(config-subif)# encapsulation dot1Q 10
+R01(config-subif)# ip address 192.168.10.1 255.255.255.0
+R01(config-subif)# exit
+R01(config)# interface GigabitEthernet0/0.20
+R01(config-subif)# encapsulation dot1Q 20
+R01(config-subif)# ip address 192.168.20.1 255.255.255.0
+R01(config-subif)# exit
+
+R01(config)# interface GigabitEthernet0/0
+R01(config-if)# no shutdown
+R01(config-if)# exit
+
+
+**S01 Configurations**
+
+Switch>en
+Switch#conf t
+
+Switch(config)#hostname S03
+
+S01(config)#line console 0
+S01(config-line)#password cisco
+S01(config-line)#login
+S01(config-line)#exit
+
+S01(config)#line vty 0 4
+S01(config-line)#password cisco
+S01(config-line)#login
+S01(config-line)#exit
+
+S01(config)#enable secret cisco
+S01(config)#service password-encryption
+
+S01(config)# vlan 10
+S01(config-vlan)# name CONTROL
+S01(config-vlan)# exit
+S01(config)# vlan 20
+S01(config-vlan)# name admin
+S01(config-vlan)# exit
+
+S01(config)# interface FastEthernet0/1
+S01(config-if)# switchport mode access
+S01(config-if)# switchport access vlan 10
+S01(config-if)# exit
+S01(config)# interface FastEthernet0/2
+S01(config-if)# switchport mode access
+S01(config-if)# switchport access vlan 20
+S01(config-if)# exit
+
+S01(config)# interface FastEthernet0/24
+S01(config-if)# switchport mode trunk
+S01(config-if)# exit
+
+S01(config)#interface vlan 10
+S01(config-if)#ip add 192.168.10.2 255.255.255.0
+S01(config-if)#no shutdown
+S01(config-line)#exit
+
+S01(config)#interface vlan 20
+S01(config-if)#ip add 192.168.20.2 255.255.255.0
+S01(config-if)#no shutdown
+S01(config-line)#exit
+
+S01(config)#ip default-gateway 192.168.10.1
+
+S01(config)#ip domain-name cisco.com
+S01(config)#crypto key generate rsa
+
+S01(config)#username cisco privilege 15 secret cisco
+
+S01(config)#line vty 0 4
+S01(config-line)#transport input ssh
+S01(config-line)#login local
+S01(config-line)#exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
